@@ -34,16 +34,15 @@
 	.NOTES
     Created by: KaijuLogic
     Created Date: 1.2024
-    Last Modified Date: 15 Nov 2025
+    Last Modified Date: 16 Nov 2025
     Last Modified By: KaijuLogic
     Last Modification Notes: 
-		* 16 Nov, 2025 - lots of small fixes.
+		- 16 Nov, 2025 - lots of small fixes.
 			* Removing function that is never used. 
 			* Simplifying parameter checks
 			* Explicitly importing required modules
 			* Explicitly require run as admin
 			* Removing some variables that were just duplicates or were only used once or twice
-
 		* 3.23.2024 - Added Logging, Examples, additional notes and Descriptions. Functionalized commands 
 
 	.TODO
@@ -106,13 +105,12 @@ Function Write-Log{
 Function Set-LogFolders {
 	$LogFolder = Split-Path $logfile -Parent
 	if (!(Test-Path $LogFolder)) {
-		New-Item -Path $LogFolder -ItemType "directory" | out-null
-		if (Test-Path $LogFolder) {
-			Write-Output "$LogFolder created successfully"
-		}
-		else {
-			Write-Output "Error creating path: $LogPath maybe try manual creation?"
-		}
+        Try{
+            New-Item -Path $LogFolder -ItemType "directory" | out-null
+        }
+        Catch {
+            Write-Warning "Issue Creating $LogFolder. ERROR: $($_.ErrorDetails.Message)"
+        }
 	}
 }
 
